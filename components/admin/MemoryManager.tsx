@@ -118,7 +118,7 @@ export default function MemoryManager({ initial }: { initial:Memory[] }) {
               <p style={{ fontFamily:"'Playfair Display',serif", color:"#FFF7E6", fontSize:"1rem", fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>{mem.title}</p>
               <p style={{ fontFamily:"'Lato',sans-serif", color:"rgba(245,210,122,.5)", fontSize:"0.72rem", marginTop:"0.2rem" }}>{mem.date}</p>
             </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-1.5 flex-shrink-0">
               <button onClick={()=>openEdit(mem)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.7rem", color:"rgba(245,210,122,.6)", background:"rgba(245,210,122,.08)", border:"1px solid rgba(245,210,122,.2)", borderRadius:"0.5rem", padding:"0.35rem 0.75rem", cursor:"pointer" }}>Düzenle</button>
               <button onClick={()=>remove(mem.id)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.7rem", color:"rgba(255,100,100,.5)", background:"rgba(255,100,100,.06)", border:"1px solid rgba(255,100,100,.15)", borderRadius:"0.5rem", padding:"0.35rem 0.75rem", cursor:"pointer" }}>Sil</button>
             </div>
@@ -132,13 +132,13 @@ export default function MemoryManager({ initial }: { initial:Memory[] }) {
           <>
             <motion.div className="fixed inset-0 z-40" style={{ background:"rgba(3,6,14,.85)", backdropFilter:"blur(8px)" }} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={closeForm}/>
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto">
-              <motion.div className="w-full max-w-lg my-4" initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}} transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
+              <motion.div className="w-full max-w-lg my-2 sm:my-4" initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}} transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
                 <div className="rounded-2xl overflow-hidden" style={{ background:"linear-gradient(145deg,rgba(17,35,71,.97),rgba(11,29,58,.99))", border:"1px solid rgba(245,210,122,.25)", boxShadow:"0 25px 80px rgba(0,0,0,.5)" }}>
                   <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom:"1px solid rgba(245,210,122,.1)" }}>
                     <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.2rem", color:"#FFF7E6" }}>{editing?"Anıyı Düzenle":"Yeni Anı Ekle"}</h3>
                     <button onClick={closeForm} style={{ background:"none", border:"none", color:"rgba(245,210,122,.4)", cursor:"pointer", fontSize:"1.1rem" }}>✕</button>
                   </div>
-                  <div className="px-6 py-5">
+                  <div className="px-4 sm:px-6 py-4 sm:py-5">
                     <Field label="Başlık *"><input value={form.title} onChange={e=>setForm({...form,title:e.target.value})} placeholder="İlk Tanışma" style={inputStyle}/></Field>
                     <Field label="Tarih *"><input value={form.date} onChange={e=>setForm({...form,date:e.target.value})} placeholder="3 Mart 2022" style={inputStyle}/></Field>
                     <Field label="Açıklama *"><textarea value={form.description} onChange={e=>setForm({...form,description:e.target.value})} placeholder="O gün..." rows={4} style={{...inputStyle,resize:"vertical"}}/></Field>

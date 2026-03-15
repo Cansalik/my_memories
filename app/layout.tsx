@@ -19,10 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased" style={{ paddingBottom: 70 }}>
+      <body className="antialiased pb-20 sm:pb-[70px]">
         {children}
         <Footer />
       </body>
     </html>
-  );
-}
+  );}

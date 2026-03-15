@@ -88,7 +88,7 @@ export default function SongManager({ initial }: { initial: SongConfig }) {
   };
 
   return (
-    <div className="max-w-xl">
+    <div className="max-w-xl w-full">
       <div className="mb-8">
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.75rem", color:"#FFF7E6", fontWeight:500 }}>Bizim Şarkımız</h2>
         <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.75rem", color:"rgba(245,210,122,.45)", marginTop:"0.25rem" }}>Footer'da oynatılan şarkıyı buradan ayarlayın</p>
@@ -101,7 +101,7 @@ export default function SongManager({ initial }: { initial: SongConfig }) {
         </motion.div>
       )}
 
-      <div className="rounded-2xl p-8" style={{ background:"linear-gradient(145deg,rgba(17,35,71,.95),rgba(11,29,58,.98))", border:"1px solid rgba(245,210,122,.2)", boxShadow:"0 20px 60px rgba(0,0,0,.3)" }}>
+      <div className="rounded-2xl p-5 sm:p-8" style={{ background:"linear-gradient(145deg,rgba(17,35,71,.95),rgba(11,29,58,.98))", border:"1px solid rgba(245,210,122,.2)", boxShadow:"0 20px 60px rgba(0,0,0,.3)" }}>
 
         {/* YouTube önizleme */}
         {previewThumb && (

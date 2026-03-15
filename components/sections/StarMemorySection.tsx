@@ -118,7 +118,7 @@ export default function StarMemorySection({ memories }: Props) {
         )}
       </AnimatePresence>
 
-      <div className="relative z-10 flex flex-col items-center justify-start pt-20 pb-16 px-4 pointer-events-none">
+      <div className="relative z-10 flex flex-col items-center justify-start pt-14 sm:pt-20 pb-12 sm:pb-16 px-4 pointer-events-none">
         <motion.div className="text-center" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
           <p style={{ fontFamily: "'Lato',sans-serif", fontSize: "0.65rem", letterSpacing: "0.4em", textTransform: "uppercase", color: "rgba(245,210,122,.6)", marginBottom: "0.75rem" }}>Anıların Gökyüzü</p>
           <h2 style={{ fontFamily: "'Playfair Display',serif", fontSize: "clamp(2.2rem,5vw,3.5rem)", color: "#FFF7E6", marginBottom: "1rem", textShadow: "0 0 30px rgba(245,210,122,0.25)" }}>Yıldızlarımız</h2>

@@ -176,13 +176,13 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
           <>
             <motion.div className="fixed inset-0 z-40" style={{ background:"rgba(3,6,14,.85)", backdropFilter:"blur(8px)" }} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={closeForm}/>
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto">
-              <motion.div className="w-full max-w-lg my-4" initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}} transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
+              <motion.div className="w-full max-w-lg my-2 sm:my-4" initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}} transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
                 <div className="rounded-2xl overflow-hidden" style={{ background:"linear-gradient(145deg,rgba(17,35,71,.97),rgba(11,29,58,.99))", border:"1px solid rgba(245,210,122,.25)", boxShadow:"0 25px 80px rgba(0,0,0,.5)" }}>
                   <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom:"1px solid rgba(245,210,122,.1)" }}>
                     <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.2rem", color:"#FFF7E6" }}>{editing?"Fotoğrafı Düzenle":"Yeni Fotoğraf"}</h3>
                     <button onClick={closeForm} style={{ background:"none", border:"none", color:"rgba(245,210,122,.4)", cursor:"pointer", fontSize:"1.1rem" }}>✕</button>
                   </div>
-                  <div className="px-6 py-5">
+                  <div className="px-4 sm:px-6 py-4 sm:py-5">
                     <Field label="Fotoğraf">
                       <PhotoUploader
                         value={form.url}

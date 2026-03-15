@@ -20,7 +20,7 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <motion.div className="w-full max-w-sm px-4" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+    <motion.div className="w-full max-w-sm px-4 sm:px-0" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
       {/* Glow */}
       <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse 60% 40% at 50% 50%,rgba(245,210,122,.05) 0%,transparent 70%)" }} />
       <div className="relative">
@@ -42,7 +42,7 @@ export default function AdminLoginForm() {
               style={{ fontFamily:"'Lato',sans-serif", background:"rgba(7,15,30,.8)", border:`1px solid ${error?"rgba(255,100,100,.4)":"rgba(245,210,122,.2)"}`, color:"#FFF7E6", transition:"border-color .2s" }}
               onFocus={e => { if(!error) e.currentTarget.style.borderColor="rgba(245,210,122,.5)"; }}
               onBlur={e => { e.currentTarget.style.borderColor=error?"rgba(255,100,100,.4)":"rgba(245,210,122,.2)"; }}
-              autoFocus maxLength={16}
+              autoFocus maxLength={8}
             />
             {error && <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.72rem", color:"rgba(255,120,120,.8)", textAlign:"center", marginBottom:"0.75rem" }}>{error}</p>}
             <motion.button type="submit" disabled={loading || !pin} className="w-full py-3 rounded-xl font-medium transition-all" style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.875rem", letterSpacing:"0.1em", background: loading||!pin?"rgba(245,210,122,.15)":"linear-gradient(135deg,#F5D27A,#C9A84C)", color: loading||!pin?"rgba(245,210,122,.4)":"#0B1D3A", cursor: loading||!pin?"not-allowed":"pointer", boxShadow: loading||!pin?"none":"0 0 20px rgba(245,210,122,.3)" }}
