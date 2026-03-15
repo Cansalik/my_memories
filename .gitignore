@@ -1,0 +1,14 @@
+# dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+
+# env — ÖNEMLİ: Supabase key'lerin GitHub'a gitmesin!
+.env.local
+.env
+
+# OS
+.DS_Store
+Thumbs.db

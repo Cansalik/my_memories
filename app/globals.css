@@ -1,0 +1,185 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0b1d3a;
+  --navy-light: #112347;
+  --navy-deep: #070f1e;
+  --gold: #f5d27a;
+  --gold-light: #fae4a4;
+  --gold-dim: #c9a84c;
+  --cream: #fff7e6;
+  --rose: #e8a4b8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--navy-deep);
+  color: var(--cream);
+  font-family: "Lato", sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--navy-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dim);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Gold glow text */
+.glow-text {
+  text-shadow: 0 0 20px rgba(245, 210, 122, 0.6), 0 0 40px rgba(245, 210, 122, 0.3);
+}
+
+/* Star glow */
+.star-glow {
+  box-shadow: 0 0 10px 3px rgba(245, 210, 122, 0.5), 0 0 20px 6px rgba(245, 210, 122, 0.2);
+}
+
+.star-glow-hover:hover {
+  box-shadow: 0 0 20px 6px rgba(245, 210, 122, 0.8), 0 0 40px 12px rgba(245, 210, 122, 0.4);
+}
+
+/* Card glass effect */
+.glass-card {
+  background: rgba(11, 29, 58, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 210, 122, 0.15);
+}
+
+/* Gold border on hover */
+.gold-hover-border {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.gold-hover-border:hover {
+  border-color: rgba(245, 210, 122, 0.6);
+  box-shadow: 0 0 20px rgba(245, 210, 122, 0.2), 0 0 40px rgba(245, 210, 122, 0.1);
+}
+
+/* Photo placeholder gradient */
+.photo-placeholder {
+  background: linear-gradient(
+    135deg,
+    rgba(17, 35, 71, 0.9) 0%,
+    rgba(30, 50, 90, 0.7) 50%,
+    rgba(17, 35, 71, 0.9) 100%
+  );
+}
+
+/* Noise texture overlay */
+.noise-overlay::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+}
+
+/* Section divider */
+.star-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.star-divider::before,
+.star-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(245, 210, 122, 0.3), transparent);
+}
+
+/* Constellation SVG lines */
+.constellation-line {
+  stroke: rgba(245, 210, 122, 0.25);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  animation: dashFlow 20s linear infinite;
+}
+@keyframes dashFlow {
+  to {
+    stroke-dashoffset: -200;
+  }
+}
+
+/* Envelope card */
+.envelope-fold::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(135deg, transparent 50%, rgba(245, 210, 122, 0.05) 50%);
+  pointer-events: none;
+}
+
+/* Music player progress */
+.music-progress::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+}
+.music-progress::-webkit-slider-runnable-track {
+  height: 3px;
+  background: rgba(245, 210, 122, 0.2);
+  border-radius: 2px;
+}
+
+/* Shooting star */
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+}
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.8), transparent);
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--gold-dim) 25%, var(--gold-light) 50%, var(--gold-dim) 75%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
