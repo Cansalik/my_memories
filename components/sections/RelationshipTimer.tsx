@@ -59,7 +59,7 @@ export default function RelationshipTimer() {
         initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.8 }}>
         <p className="text-gold/60 text-xs tracking-[0.4em] uppercase mb-3" style={{ fontFamily:"'Lato',sans-serif" }}>Aşkın Ölçümü</p>
         <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"clamp(2rem,6vw,3.5rem)", color:"#FFF7E6", textShadow:"0 0 30px rgba(245,210,122,0.2)" }}>Birlikte Geçen Süre</h2>
-        <p className="text-cream/40 text-sm mt-2" style={{ fontFamily:"'Lato',sans-serif" }}>3 Mart 2022'den bu yana</p>
+        <p className="text-cream/40 text-sm mt-2" style={{ fontFamily:"'Lato',sans-serif" }}>1 Temmuz 2021'den bu yana</p>
       </motion.div>
 
       <div className="max-w-3xl mx-auto">

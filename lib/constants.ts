@@ -6,7 +6,7 @@ export const COUPLE_TAGLINE = "Her yıldız bir anımızı temsil ediyor";
 export const COUPLE_QUOTE = "Seninle her an, gökyüzünde bir yıldız oldu.";
 
 // ── Relationship timer ────────────────────────────────────
-export const RELATIONSHIP_START = new Date("2022-03-03T00:00:00");
+export const RELATIONSHIP_START = new Date("2021-07-01T15:47:38");
 
 // ── Site metadata ─────────────────────────────────────────
 export const SITE_TITLE = `${COUPLE_NAME} ✦ Bizim Yıldızlarımız`;
