@@ -38,19 +38,15 @@ function PhotoUploader({ value, onChange, onError }: { value:string; onChange:(u
     fd.append("file", file);
     const result = await actionUploadPhoto(fd);
     setUploading(false);
-    if (result.url) {
-      onChange(result.url);
-      onError("");
-    } else {
-      onError(`Yükleme hatası: ${result.error}`);
-    }
+    if (result.url) { onChange(result.url); onError(""); }
+    else onError(`Yükleme hatası: ${result.error}`);
     e.target.value = "";
   };
 
   return (
     <div>
       {value && (
-        <div className="relative mb-3 rounded-xl overflow-hidden" style={{ aspectRatio:"1/1", maxWidth:160, background:"rgba(7,15,30,.8)" }}>
+        <div className="relative mb-3 rounded-xl overflow-hidden" style={{ aspectRatio:"16/9", maxWidth:220, background:"rgba(7,15,30,.8)" }}>
           <img src={value} alt="Önizleme" className="w-full h-full object-cover" />
           <button type="button" onClick={() => onChange("")}
             className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full flex items-center justify-center"
@@ -80,10 +76,9 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
   const [editing, setEditing] = useState<string|null>(null);
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [msg, setMsg] = useState<{ text:string; ok:boolean } | null>(null);
+  const [msg, setMsg] = useState<{text:string;ok:boolean}|null>(null);
 
   const flash = (text:string, ok=true) => { setMsg({text,ok}); setTimeout(()=>setMsg(null),5000); };
-
   const openNew = () => { setForm({...empty, sort_order:photos.length+1}); setEditing(null); setOpen(true); };
   const openEdit = (p:GalleryPhoto) => {
     setForm({ url:p.url, caption:p.caption, date:p.date, featured:p.featured, sort_order:p.sort_order??0 });
@@ -94,25 +89,14 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
   const save = async () => {
     if (!form.caption||!form.date) { flash("Başlık ve tarih zorunludur.", false); return; }
     setSaving(true);
-
     if (editing) {
       const result = await actionUpdatePhoto(editing, form);
-      if (result.data) {
-        setPhotos(ps=>ps.map(p=>p.id===editing?result.data!:p));
-        flash("Fotoğraf güncellendi ✦");
-        closeForm();
-      } else {
-        flash(`Hata: ${result.error}`, false);
-      }
+      if (result.data) { setPhotos(ps=>ps.map(p=>p.id===editing?result.data!:p)); flash("Fotoğraf güncellendi ✦"); closeForm(); }
+      else flash(`Hata: ${result.error}`, false);
     } else {
       const result = await actionCreatePhoto(form);
-      if (result.data) {
-        setPhotos(ps=>[...ps, result.data!]);
-        flash("Fotoğraf eklendi ✦");
-        closeForm();
-      } else {
-        flash(`Hata: ${result.error}`, false);
-      }
+      if (result.data) { setPhotos(ps=>[...ps, result.data!]); flash("Fotoğraf eklendi ✦"); closeForm(); }
+      else flash(`Hata: ${result.error}`, false);
     }
     setSaving(false);
   };
@@ -120,79 +104,109 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
   const remove = async (id:string) => {
     if (!confirm("Fotoğrafı silmek istediğinizden emin misiniz?")) return;
     const result = await actionDeletePhoto(id);
-    if (result.ok) {
-      setPhotos(ps=>ps.filter(p=>p.id!==id));
-      flash("Silindi.");
-    } else {
-      flash(`Silme hatası: ${result.error}`, false);
-    }
+    if (result.ok) { setPhotos(ps=>ps.filter(p=>p.id!==id)); flash("Silindi."); }
+    else flash(`Silme hatası: ${result.error}`, false);
   };
 
   return (
     <div>
+      {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
           <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.75rem", color:"#FFF7E6", fontWeight:500 }}>Fotoğraflar</h2>
-          <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.75rem", color:"rgba(245,210,122,.45)", marginTop:"0.25rem" }}>{photos.length} fotoğraf · {photos.filter(p=>p.featured).length} öne çıkan</p>
+          <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.75rem", color:"rgba(245,210,122,.45)", marginTop:"0.25rem" }}>
+            {photos.length} fotoğraf · {photos.filter(p=>p.featured).length} öne çıkan
+          </p>
         </div>
         <motion.button onClick={openNew} className="flex items-center gap-2 px-4 py-2.5 rounded-xl"
           style={{ background:"linear-gradient(135deg,#F5D27A,#C9A84C)", fontFamily:"'Lato',sans-serif", fontSize:"0.8rem", fontWeight:600, color:"#0B1D3A", border:"none", cursor:"pointer" }}
-          whileHover={{scale:1.03}} whileTap={{scale:0.97}}>✧ Yeni Fotoğraf</motion.button>
+          whileHover={{scale:1.03}} whileTap={{scale:0.97}}>
+          ✧ Yeni Fotoğraf
+        </motion.button>
       </div>
 
       {msg && (
         <div className="mb-4 px-4 py-3 rounded-xl" style={{
-          background: msg.ok ? "rgba(245,210,122,.1)" : "rgba(255,80,80,.1)",
-          border: `1px solid ${msg.ok ? "rgba(245,210,122,.3)" : "rgba(255,80,80,.3)"}`,
-          color: msg.ok ? "#F5D27A" : "rgba(255,140,140,.9)",
+          background:msg.ok?"rgba(245,210,122,.1)":"rgba(255,80,80,.1)",
+          border:`1px solid ${msg.ok?"rgba(245,210,122,.3)":"rgba(255,80,80,.3)"}`,
+          color:msg.ok?"#F5D27A":"rgba(255,140,140,.9)",
           fontFamily:"'Lato',sans-serif", fontSize:"0.875rem",
-        }}>
-          {msg.text}
-        </div>
+        }}>{msg.text}</div>
       )}
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {photos.map(photo=>(
-          <div key={photo.id} className="group relative rounded-xl overflow-hidden" style={{ aspectRatio:"1", background:"rgba(17,35,71,.6)", border:`1px solid ${photo.featured?"rgba(245,210,122,.3)":"rgba(245,210,122,.1)"}` }}>
-            {photo.url
-              ? <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
-              : <div className="w-full h-full flex items-center justify-center" style={{ background:"linear-gradient(135deg,rgba(17,35,71,.9),rgba(30,50,90,.7))" }}><span style={{ color:"rgba(245,210,122,.2)", fontSize:"1.5rem" }}>✦</span></div>}
-            {photo.featured&&<div className="absolute top-2 left-2 px-1.5 py-0.5 rounded-full" style={{ background:"rgba(11,29,58,.9)", border:"1px solid rgba(245,210,122,.3)" }}><span style={{ color:"#F5D27A", fontSize:"0.55rem", fontFamily:"'Lato',sans-serif" }}>✦ Öne Çıkan</span></div>}
-            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
-              <p style={{ fontFamily:"'Playfair Display',serif", color:"#FFF7E6", fontSize:"0.85rem", fontWeight:500, textAlign:"center", padding:"0 0.5rem" }}>{photo.caption}</p>
-              <p style={{ fontFamily:"'Lato',sans-serif", color:"rgba(245,210,122,.7)", fontSize:"0.68rem" }}>{photo.date}</p>
-              <div className="flex gap-2 mt-1">
-                <button onClick={()=>openEdit(photo)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.65rem", color:"rgba(245,210,122,.8)", background:"rgba(245,210,122,.1)", border:"1px solid rgba(245,210,122,.25)", borderRadius:"0.4rem", padding:"0.25rem 0.6rem", cursor:"pointer" }}>Düzenle</button>
-                <button onClick={()=>remove(photo.id)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.65rem", color:"rgba(255,100,100,.7)", background:"rgba(255,100,100,.08)", border:"1px solid rgba(255,100,100,.2)", borderRadius:"0.4rem", padding:"0.25rem 0.6rem", cursor:"pointer" }}>Sil</button>
+      {/* Liste — Videolar ile aynı tasarım */}
+      <div className="space-y-3">
+        {photos.map(photo => (
+          <motion.div key={photo.id} layout
+            className="flex items-center gap-4 px-5 py-4 rounded-xl"
+            style={{ background:"rgba(17,35,71,.6)", border:`1px solid ${photo.featured?"rgba(245,210,122,.25)":"rgba(245,210,122,.1)"}` }}>
+            {/* Küçük fotoğraf önizlemesi */}
+            <div className="flex-shrink-0 rounded-lg overflow-hidden" style={{ width:72, height:48, background:"rgba(11,29,58,.8)" }}>
+              {photo.url
+                ? <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover"/>
+                : <div className="w-full h-full flex items-center justify-center"><span style={{ color:"rgba(245,210,122,.3)", fontSize:"1rem" }}>✦</span></div>
+              }
+            </div>
+            {/* Bilgiler */}
+            <div className="flex-1 min-w-0">
+              <p style={{ fontFamily:"'Playfair Display',serif", color:"#FFF7E6", fontSize:"1rem", fontWeight:500, overflow:"hidden", textOverflow:"ellipsis", whiteSpace:"nowrap" }}>
+                {photo.caption}
+              </p>
+              <div className="flex items-center gap-3 mt-0.5">
+                <p style={{ fontFamily:"'Lato',sans-serif", color:"rgba(245,210,122,.5)", fontSize:"0.72rem" }}>{photo.date}</p>
+                {photo.featured && (
+                  <span style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.58rem", color:"#F5D27A", background:"rgba(245,210,122,.1)", border:"1px solid rgba(245,210,122,.2)", borderRadius:"999px", padding:"0.1rem 0.45rem" }}>
+                    Öne Çıkan
+                  </span>
+                )}
               </div>
             </div>
-          </div>
+            {/* Butonlar */}
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <button onClick={() => openEdit(photo)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.7rem", color:"rgba(245,210,122,.6)", background:"rgba(245,210,122,.08)", border:"1px solid rgba(245,210,122,.2)", borderRadius:"0.5rem", padding:"0.35rem 0.75rem", cursor:"pointer" }}>Düzenle</button>
+              <button onClick={() => remove(photo.id)} style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.7rem", color:"rgba(255,100,100,.5)", background:"rgba(255,100,100,.06)", border:"1px solid rgba(255,100,100,.15)", borderRadius:"0.5rem", padding:"0.35rem 0.75rem", cursor:"pointer" }}>Sil</button>
+            </div>
+          </motion.div>
         ))}
-        {photos.length===0&&<p className="col-span-3" style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.85rem", color:"rgba(255,247,230,.25)", textAlign:"center", padding:"2rem" }}>Henüz fotoğraf eklenmemiş</p>}
+        {photos.length === 0 && (
+          <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.85rem", color:"rgba(255,247,230,.25)", textAlign:"center", padding:"2rem" }}>
+            Henüz fotoğraf eklenmemiş
+          </p>
+        )}
       </div>
 
+      {/* Form Modal */}
       <AnimatePresence>
-        {open&&(
+        {open && (
           <>
-            <motion.div className="fixed inset-0 z-40" style={{ background:"rgba(3,6,14,.85)", backdropFilter:"blur(8px)" }} initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={closeForm}/>
+            <motion.div className="fixed inset-0 z-40" style={{ background:"rgba(3,6,14,.85)", backdropFilter:"blur(8px)" }}
+              initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}} onClick={closeForm}/>
             <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-auto">
-              <motion.div className="w-full max-w-lg my-2 sm:my-4" initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}} transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
-                <div className="rounded-2xl overflow-hidden" style={{ background:"linear-gradient(145deg,rgba(17,35,71,.97),rgba(11,29,58,.99))", border:"1px solid rgba(245,210,122,.25)", boxShadow:"0 25px 80px rgba(0,0,0,.5)" }}>
-                  <div className="flex items-center justify-between px-6 py-5" style={{ borderBottom:"1px solid rgba(245,210,122,.1)" }}>
-                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.2rem", color:"#FFF7E6" }}>{editing?"Fotoğrafı Düzenle":"Yeni Fotoğraf"}</h3>
+              <motion.div className="w-full max-w-lg my-2 sm:my-4"
+                initial={{opacity:0,scale:0.9,y:20}} animate={{opacity:1,scale:1,y:0}} exit={{opacity:0,scale:0.9,y:20}}
+                transition={{type:"spring",damping:25,stiffness:300}} onClick={e=>e.stopPropagation()}>
+                <div className="rounded-2xl overflow-hidden"
+                  style={{ background:"linear-gradient(145deg,rgba(17,35,71,.97),rgba(11,29,58,.99))", border:"1px solid rgba(245,210,122,.25)", boxShadow:"0 25px 80px rgba(0,0,0,.5)" }}>
+                  <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5"
+                    style={{ borderBottom:"1px solid rgba(245,210,122,.1)" }}>
+                    <h3 style={{ fontFamily:"'Playfair Display',serif", fontSize:"1.2rem", color:"#FFF7E6" }}>
+                      {editing?"Fotoğrafı Düzenle":"Yeni Fotoğraf"}
+                    </h3>
                     <button onClick={closeForm} style={{ background:"none", border:"none", color:"rgba(245,210,122,.4)", cursor:"pointer", fontSize:"1.1rem" }}>✕</button>
                   </div>
                   <div className="px-4 sm:px-6 py-4 sm:py-5">
                     <Field label="Fotoğraf">
-                      <PhotoUploader
-                        value={form.url}
-                        onChange={url=>setForm({...form,url})}
-                        onError={e=>e && flash(e, false)}
-                      />
+                      <PhotoUploader value={form.url} onChange={url=>setForm({...form,url})} onError={e=>e&&flash(e,false)} />
                     </Field>
-                    <Field label="Başlık *"><input value={form.caption} onChange={e=>setForm({...form,caption:e.target.value})} placeholder="Tatil Anısı" style={inputStyle}/></Field>
-                    <Field label="Tarih *"><input value={form.date} onChange={e=>setForm({...form,date:e.target.value})} placeholder="Eylül 2022" style={inputStyle}/></Field>
-                    <Field label="Sıralama"><input type="number" value={form.sort_order||0} onChange={e=>setForm({...form,sort_order:parseInt(e.target.value)||0})} style={{...inputStyle,width:80}}/></Field>
+                    <Field label="Başlık *">
+                      <input value={form.caption} onChange={e=>setForm({...form,caption:e.target.value})} placeholder="Tatil Anısı" style={inputStyle}/>
+                    </Field>
+                    <Field label="Tarih *">
+                      <input value={form.date} onChange={e=>setForm({...form,date:e.target.value})} placeholder="Eylül 2022" style={inputStyle}/>
+                    </Field>
+                    <Field label="Sıralama">
+                      <input type="number" value={form.sort_order||0} onChange={e=>setForm({...form,sort_order:parseInt(e.target.value)||0})} style={{...inputStyle,width:80}}/>
+                    </Field>
                     <label className="flex items-center gap-3 cursor-pointer mb-6">
                       <div style={{ position:"relative" }}>
                         <input type="checkbox" checked={form.featured} onChange={e=>setForm({...form,featured:e.target.checked})} className="sr-only"/>
@@ -204,7 +218,9 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
                     </label>
                     <div className="flex gap-3">
                       <button onClick={closeForm} style={{ flex:1, fontFamily:"'Lato',sans-serif", fontSize:"0.85rem", color:"rgba(255,247,230,.5)", background:"rgba(255,247,230,.05)", border:"1px solid rgba(255,247,230,.1)", borderRadius:"0.75rem", padding:"0.75rem", cursor:"pointer" }}>İptal</button>
-                      <motion.button onClick={save} disabled={saving} style={{ flex:2, fontFamily:"'Lato',sans-serif", fontSize:"0.85rem", fontWeight:600, color:"#0B1D3A", background:saving?"rgba(245,210,122,.3)":"linear-gradient(135deg,#F5D27A,#C9A84C)", border:"none", borderRadius:"0.75rem", padding:"0.75rem", cursor:saving?"not-allowed":"pointer" }} whileHover={!saving?{scale:1.02}:{}} whileTap={!saving?{scale:0.98}:{}}>{saving?"Kaydediliyor...":"Kaydet"}</motion.button>
+                      <motion.button onClick={save} disabled={saving}
+                        style={{ flex:2, fontFamily:"'Lato',sans-serif", fontSize:"0.85rem", fontWeight:600, color:"#0B1D3A", background:saving?"rgba(245,210,122,.3)":"linear-gradient(135deg,#F5D27A,#C9A84C)", border:"none", borderRadius:"0.75rem", padding:"0.75rem", cursor:saving?"not-allowed":"pointer" }}
+                        whileHover={!saving?{scale:1.02}:{}} whileTap={!saving?{scale:0.98}:{}}>{saving?"Kaydediliyor...":"Kaydet"}</motion.button>
                     </div>
                   </div>
                 </div>
@@ -214,5 +230,4 @@ export default function PhotoManager({ initial }: { initial:GalleryPhoto[] }) {
         )}
       </AnimatePresence>
     </div>
-  );
-}
+  );}

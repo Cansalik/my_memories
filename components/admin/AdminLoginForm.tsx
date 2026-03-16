@@ -37,12 +37,12 @@ export default function AdminLoginForm() {
             <label style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.7rem", letterSpacing:"0.15em", textTransform:"uppercase", color:"rgba(245,210,122,.5)", display:"block", marginBottom:"0.75rem" }}>Giriş Şifresi</label>
             <input
               type="password" value={pin} onChange={e => setPin(e.target.value)}
-              placeholder="••••"
+              placeholder="••••••••••••"
               className="w-full rounded-xl px-4 py-3 mb-4 outline-none text-cream placeholder-cream/20 font-lato text-center text-2xl tracking-widest"
               style={{ fontFamily:"'Lato',sans-serif", background:"rgba(7,15,30,.8)", border:`1px solid ${error?"rgba(255,100,100,.4)":"rgba(245,210,122,.2)"}`, color:"#FFF7E6", transition:"border-color .2s" }}
               onFocus={e => { if(!error) e.currentTarget.style.borderColor="rgba(245,210,122,.5)"; }}
               onBlur={e => { e.currentTarget.style.borderColor=error?"rgba(255,100,100,.4)":"rgba(245,210,122,.2)"; }}
-              autoFocus maxLength={8}
+              autoFocus maxLength={16}
             />
             {error && <p style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.72rem", color:"rgba(255,120,120,.8)", textAlign:"center", marginBottom:"0.75rem" }}>{error}</p>}
             <motion.button type="submit" disabled={loading || !pin} className="w-full py-3 rounded-xl font-medium transition-all" style={{ fontFamily:"'Lato',sans-serif", fontSize:"0.875rem", letterSpacing:"0.1em", background: loading||!pin?"rgba(245,210,122,.15)":"linear-gradient(135deg,#F5D27A,#C9A84C)", color: loading||!pin?"rgba(245,210,122,.4)":"#0B1D3A", cursor: loading||!pin?"not-allowed":"pointer", boxShadow: loading||!pin?"none":"0 0 20px rgba(245,210,122,.3)" }}
