@@ -6,6 +6,20 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/lib/constants";
 export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
+  // Apple ve diğer ikon yapılandırmaları buraya eklenir
+  icons: {
+    icon: "/icon.png", // Standart favicon
+    apple: [
+      { url: "/icon.png" }, // Varsayılan apple-touch-icon
+      { url: "/icon.png", sizes: "180x180", type: "image/png" }, // Spesifik boyut (Örn: iPhone Retina)
+    ],
+  },
+  // Apple mobil cihazlarda web uygulaması gibi görünmesi için ek ayarlar (Opsiyonel)
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: SITE_TITLE,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -24,4 +38,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Footer />
       </body>
     </html>
-  );}
+  );
+}
